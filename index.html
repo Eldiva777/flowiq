@@ -1,0 +1,338 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+<meta charset="UTF-8"/>  
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+<title>FlowIQ — Follow the Smart Money Before Everyone Else</title>  
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>  
+<style>  
+  :root {  
+    --bg: #080b10;  
+    --bg2: #0d1117;  
+    --bg3: #111820;  
+    --border: rgba(255,255,255,0.07);  
+    --accent: #00f5a0;  
+    --accent2: #00c8ff;  
+    --accent3: #ff6b35;  
+    --text: #f0f4f8;  
+    --muted: #8896a7;  
+    --card: rgba(255,255,255,0.03);  
+  }  
+  *{margin:0;padding:0;box-sizing:border-box;}  
+  html{scroll-behavior:smooth;}  
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}  
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}  
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4%;background:rgba(8,11,16,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}  
+  .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-0.5px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}  
+  .nav-links{display:flex;gap:2rem;align-items:center;}  
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color .2s;}  
+  .nav-links a:hover{color:var(--text);}  
+  .nav-cta{background:var(--accent);color:#080b10;padding:.55rem 1.3rem;border-radius:6px;font-weight:700;font-size:0.85rem;text-decoration:none;transition:opacity .2s,transform .2s;}  
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 4% 4rem;position:relative;overflow:hidden;}  
+  .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle, rgba(0,245,160,0.08) 0%, transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}  
+  .hero-glow2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle, rgba(0,200,255,0.06) 0%, transparent 70%);top:30%;right:-10%;pointer-events:none;}  
+  .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.2);border-radius:50px;padding:.4rem 1rem;font-size:.8rem;font-weight:600;color:var(--accent);margin-bottom:2rem;animation:fadeUp .6s ease both;}  
+  .hero-badge span{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}  
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.4);}}  
+  .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:1.5rem;animation:fadeUp .7s .1s ease both;}  
+  .hero h1 .green{color:var(--accent);}  
+  .hero h1 .blue{color:var(--accent2);}  
+  .hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--muted);max-width:560px;margin:0 auto 2.5rem;font-weight:400;animation:fadeUp .7s .2s ease both;}  
+  .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .3s ease both;}  
+  .btn-primary{background:var(--accent);color:#080b10;padding:.85rem 2rem;border-radius:8px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;}  
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,245,160,0.3);}  
+  .btn-ghost{background:transparent;color:var(--text);padding:.85rem 2rem;border-radius:8px;font-weight:500;font-size:1rem;text-decoration:none;border:1px solid var(--border);transition:all .2s;}  
+  .hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:4rem;animation:fadeUp .7s .4s ease both;flex-wrap:wrap;}  
+  .stat{text-align:center;}  
+  .stat-num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--text);}  
+  .stat-label{font-size:.8rem;color:var(--muted);margin-top:.2rem;}  
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}  
+  .ticker-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(0,245,160,0.02);padding:.7rem 0;}  
+  .ticker{display:flex;gap:3rem;animation:ticker 25s linear infinite;width:max-content;}  
+  .ticker-item{display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:500;color:var(--muted);white-space:nowrap;}  
+  .ticker-item .up{color:var(--accent);}  
+  .ticker-item .down{color:#ff4d6d;}  
+  @keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%)}}  
+  section{padding:6rem 4%;position:relative;}  
+  .container{max-width:1100px;margin:0 auto;}  
+  .section-label{font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}  
+  .section-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:1rem;}  
+  .section-sub{color:var(--muted);max-width:520px;font-size:1.05rem;}  
+  .problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem;}  
+  .problem-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.8rem;transition:border-color .2s,transform .2s;}  
+  .problem-card:hover{border-color:rgba(255,107,53,0.3);transform:translateY(-3px);}  
+  .problem-icon{font-size:1.8rem;margin-bottom:1rem;}  
+  .problem-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.5rem;}  
+  .problem-card p{color:var(--muted);font-size:.9rem;}  
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:3rem;}  
+  .feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;overflow:hidden;transition:all .3s;}  
+  .feature-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,245,160,0.04),transparent);opacity:0;transition:opacity .3s;}  
+  .feature-card:hover::before{opacity:1;}  
+  .feature-card:hover{border-color:rgba(0,245,160,0.2);transform:translateY(-4px);}  
+  .feature-tag{display:inline-block;background:rgba(0,245,160,0.1);color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:.3rem .7rem;border-radius:4px;margin-bottom:1rem;}  
+  .feature-tag.premium{background:rgba(255,107,53,0.1);color:var(--accent3);}  
+  .feature-card h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:.7rem;}  
+  .feature-card p{color:var(--muted);font-size:.9rem;line-height:1.6;}  
+  .explain-box{margin-top:4rem;background:linear-gradient(135deg,rgba(0,245,160,0.05),rgba(0,200,255,0.05));border:1px solid rgba(0,245,160,0.15);border-radius:16px;padding:3rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}  
+  .explain-bad{background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.15);border-radius:10px;padding:1.2rem 1.5rem;font-size:.9rem;color:#ff8099;font-family:monospace;margin-bottom:1rem;}  
+  .explain-good{background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.2);border-radius:10px;padding:1.2rem 1.5rem;font-size:.9rem;color:var(--accent);font-weight:500;}  
+  .explain-label{font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}  
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;align-items:start;}  
+  .pricing-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;transition:all .3s;}  
+  .pricing-card:hover{transform:translateY(-4px);}  
+  .pricing-card.popular{border-color:var(--accent);background:rgba(0,245,160,0.04);transform:scale(1.03);}  
+  .popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#080b10;font-size:.72rem;font-weight:800;letter-spacing:1px;padding:.35rem 1rem;border-radius:50px;white-space:nowrap;}  
+  .tier-name{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.3rem;}  
+  .tier-desc{color:var(--muted);font-size:.85rem;margin-bottom:1.5rem;}  
+  .tier-price{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;line-height:1;margin-bottom:.3rem;}  
+  .tier-price span{font-size:1rem;font-weight:400;color:var(--muted);}  
+  .tier-annual{font-size:.8rem;color:var(--accent);margin-bottom:1.8rem;}  
+  .tier-divider{height:1px;background:var(--border);margin-bottom:1.5rem;}  
+  .tier-features{list-style:none;display:flex;flex-direction:column;gap:.8rem;margin-bottom:2rem;}  
+  .tier-features li{display:flex;align-items:flex-start;gap:.7rem;font-size:.88rem;color:var(--muted);}  
+  .tier-features li .check{color:var(--accent);font-size:1rem;flex-shrink:0;margin-top:.1rem;}  
+  .tier-features li .lock{color:var(--muted);opacity:.4;font-size:1rem;flex-shrink:0;}  
+  .tier-btn{width:100%;padding:.85rem;border-radius:8px;font-weight:700;font-size:.9rem;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center;}  
+  .tier-btn.primary-btn{background:var(--accent);color:#080b10;}  
+  .tier-btn.ghost-btn{background:transparent;color:var(--text);border:1px solid var(--border);}  
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;margin-top:3rem;}  
+  .step{text-align:center;padding:2rem 1.5rem;}  
+  .step-num{width:48px;height:48px;border-radius:50%;background:rgba(0,245,160,0.1);border:1px solid rgba(0,245,160,0.2);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:var(--accent);font-size:1.1rem;margin:0 auto 1.2rem;}  
+  .step h3{font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.5rem;}  
+  .step p{color:var(--muted);font-size:.9rem;}  
+  .compare-table{width:100%;border-collapse:collapse;margin-top:3rem;font-size:.9rem;}  
+  .compare-table th{font-family:'Syne',sans-serif;font-weight:700;padding:1rem;text-align:left;border-bottom:1px solid var(--border);color:var(--muted);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;}  
+  .compare-table td{padding:1rem;border-bottom:1px solid var(--border);}  
+  .compare-table tr:last-child td{border-bottom:none;}  
+  .compare-table .flowiq-col{color:var(--accent);font-weight:600;}  
+  .compare-table .bad{color:#ff4d6d;}  
+  .compare-table .good{color:var(--accent);}  
+  .waitlist-section{background:linear-gradient(135deg,rgba(0,245,160,0.06),rgba(0,200,255,0.04));border-top:1px solid var(--border);border-bottom:1px solid var(--border);}  
+  .waitlist-inner{max-width:600px;margin:0 auto;text-align:center;}  
+  .waitlist-note{font-size:.8rem;color:var(--muted);margin-top:1rem;}  
+  footer{padding:3rem 4%;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}  
+  footer p{font-size:.8rem;color:var(--muted);}  
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;}  
+  .reveal.visible{opacity:1;transform:none;}  
+  @media(max-width:768px){.pricing-grid{grid-template-columns:1fr;}.pricing-card.popular{transform:none;}.explain-box{grid-template-columns:1fr;}nav .nav-links{display:none;}}  
+  @media(max-width:600px){.hero-stats{gap:1.5rem;}}  
+</style>  
+  </head>
+  <body>  
+<nav>  
+  <div class="logo">FlowIQ</div>  
+  <div class="nav-links">  
+    <a href="#features">Features</a>  
+    <a href="#pricing">Pricing</a>  
+    <a href="#how">How it works</a>  
+    <a href="#waitlist" class="nav-cta">Join Beta →</a>  
+  </div>  
+</nav>  
+<section class="hero">  
+  <div class="hero-glow"></div>  
+  <div class="hero-glow2"></div>  
+  <div style="position:relative;z-index:1;">  
+    <div class="hero-badge"><span></span> Beta launching soon — join the waitlist</div>  
+    <h1>Follow the <span class="green">Smart Money</span><br/>Before <span class="blue">Everyone Else</span></h1>  
+    <p class="hero-sub">FlowIQ turns complex on-chain data, whale movements, and market signals into plain English — so you know where crypto is going before the crowd catches on.</p>  
+    <div class="hero-actions">  
+      <a href="#waitlist" class="btn-primary">Get Early Access →</a>  
+      <a href="#features" class="btn-ghost">See Features</a>  
+    </div>  
+    <div class="hero-stats">  
+      <div class="stat"><div class="stat-num">10x</div><div class="stat-label">earlier than crowd</div></div>  
+      <div class="stat"><div class="stat-num">Simple</div><div class="stat-label">no charts needed</div></div>  
+      <div class="stat"><div class="stat-num">Real-time</div><div class="stat-label">whale alerts</div></div>  
+      <div class="stat"><div class="stat-num">Free</div><div class="stat-label">to get started</div></div>  
+    </div>  
+  </div>  
+</section>  
+<div class="ticker-wrap">  
+  <div class="ticker">  
+    <div class="ticker-item">🐋 Whale Alert <span class="up">+$2.4M SOL accumulated</span></div>  
+    <div class="ticker-item">🔥 Trending <span class="up">PEPE +340% social mentions</span></div>  
+    <div class="ticker-item">📈 Heat Score <span class="up">BTC Narrative — HOT</span></div>  
+    <div class="ticker-item">⚡ Signal <span class="up">AI coins gaining momentum</span></div>  
+    <div class="ticker-item">🐋 Whale Alert <span class="up">+$890K ETH moved</span></div>  
+    <div class="ticker-item">🔥 Trending <span class="up">Meme season heating up</span></div>  
+    <div class="ticker-item">📉 Warning <span class="down">Gaming tokens cooling off</span></div>  
+    <div class="ticker-item">⚡ Signal <span class="up">Solana narrative expanding</span></div>  
+    <div class="ticker-item">🐋 Whale Alert <span class="up">+$2.4M SOL accumulated</span></div>  
+    <div class="ticker-item">🔥 Trending <span class="up">PEPE +340% social mentions</span></div>  
+    <div class="ticker-item">📈 Heat Score <span class="up">BTC Narrative — HOT</span></div>  
+    <div class="ticker-item">⚡ Signal <span class="up">AI coins gaining momentum</span></div>  
+    <div class="ticker-item">🐋 Whale Alert <span class="up">+$890K ETH moved</span></div>  
+    <div class="ticker-item">🔥 Trending <span class="up">Meme season heating up</span></div>  
+    <div class="ticker-item">📉 Warning <span class="down">Gaming tokens cooling off</span></div>  
+    <div class="ticker-item">⚡ Signal <span class="up">Solana narrative expanding</span></div>  
+  </div>  
+</div>  
+<section>  
+  <div class="container reveal">  
+    <div class="section-label">The Problem</div>  
+    <h2 class="section-title">Crypto is chaos.<br/>You deserve clarity.</h2>  
+    <p class="section-sub">Every retail trader faces the same problem. FlowIQ fixes it.</p>  
+    <div class="problem-grid">  
+      <div class="problem-card"><div class="problem-icon">😵</div><h3>Tools built for experts</h3><p>DexScreener, Nansen, Glassnode — powerful but overwhelming. Built for hedge funds, not humans.</p></div>  
+      <div class="problem-card"><div class="problem-icon">📱</div><h3>Scattered across 8 tabs</h3><p>Twitter, CMC, YouTube, Discord, Telegram, whale trackers — no single place for what matters.</p></div>  
+      <div class="problem-card"><div class="problem-icon">⏰</div><h3>You're always late</h3><p>By the time a coin trends on Twitter it's already up 300%. You need signals before they go viral.</p></div>  
+      <div class="problem-card"><div class="problem-icon">❓</div><h3>No context, just noise</h3><p>Data without explanation is useless. "Volume +380%" means nothing without knowing why.</p></div>  
+    </div>  
+  </div>  
+</section>  
+<section>  
+  <div class="container reveal">  
+    <div class="explain-box">  
+      <div>  
+        <div class="section-label">The FlowIQ Way</div>  
+        <h2 class="section-title">Plain English.<br/>Not jargon.</h2>  
+        <p style="color:var(--muted);margin-top:1rem;">Most tools spit out numbers. FlowIQ tells you what they mean — in language anyone can understand.</p>  
+      </div>  
+      <div>  
+        <div class="explain-label">❌ Without FlowIQ</div>  
+        <div class="explain-bad">"On-chain liquidity metrics indicate heightened speculative volatility with anomalous wallet clustering near key resistance."</div>  
+        <div class="explain-label">✅ With FlowIQ</div>  
+        <div class="explain-good">"Big investors are quietly buying this coin before the crowd notices. Momentum is building."</div>  
+      </div>  
+    </div>  
+  </div>  
+</section>  
+<section id="features">  
+  <div class="container reveal">  
+    <div class="section-label">Core Features</div>  
+    <h2 class="section-title">Everything you need.<br/>Nothing you don't.</h2>  
+    <p class="section-sub">Six intelligence modules, all in plain English.</p>  
+    <div class="features-grid">  
+      <div class="feature-card"><div class="feature-tag">Free</div><h3>🔥 Trending Coins Discovery</h3><p>See which coins are gaining traction right now — before they hit Twitter. Powered by social mentions, volume spikes, and wallet activity.</p></div>  
+      <div class="feature-card"><div class="feature-tag">Free</div><h3>📈 Top Movers Tracker</h3><p>Not just what's moving — but why. Top gainers, losers, and volume spikes explained in simple language you can act on.</p></div>  
+      <div class="feature-card"><div class="feature-tag">Free</div><h3>🧠 Market Sentiment</h3><p>Understand the crypto mood at a glance. Is the market fearful or greedy? Which narratives are heating up or cooling off?</p></div>  
+      <div class="feature-card"><div class="feature-tag premium">Premium</div><h3>🐋 Whale Tracking</h3><p>See what large investors are doing before it becomes public knowledge. Follow specific whale wallets and get notified instantly.</p></div>  
+      <div class="feature-card"><div class="feature-tag premium">Premium</div><h3>⚡ Smart Alerts</h3><p>Get notified the moment something important happens — whale buys, volume spikes, narrative shifts — via Telegram instantly.</p></div>  
+      <div class="feature-card"><div class="feature-tag">Free + Pro</div><h3>💡 Explain-Why Engine</h3><p>FlowIQ doesn't just show data. It explains what's happening in plain English so you always understand the "why" behind every move.</p></div>  
+    </div>  
+  </div>  
+</section>  
+<section id="how">  
+  <div class="container reveal">  
+    <div class="section-label">How It Works</div>  
+    <h2 class="section-title">Intelligence in<br/>3 simple steps.</h2>  
+    <div class="steps">  
+      <div class="step"><div class="step-num">1</div><h3>We scan the market</h3><p>FlowIQ continuously monitors on-chain activity, whale wallets, social signals, and price momentum 24/7.</p></div>  
+      <div class="step"><div class="step-num">2</div><h3>We filter the noise</h3><p>Our engine separates real momentum from hype — so you only see signals that actually matter.</p></div>  
+      <div class="step"><div class="step-num">3</div><h3>We explain it simply</h3><p>Complex data becomes plain English insights and alerts you can act on immediately — no analysis required.</p></div>  
+    </div>  
+  </div>  
+                                         </section>
+                                         <section>  
+  <div class="container reveal">  
+    <div class="section-label">vs The Competition</div>  
+    <h2 class="section-title">Built for humans,<br/>not hedge funds.</h2>  
+    <table class="compare-table">  
+      <thead>  
+        <tr>  
+          <th>Feature</th>  
+          <th class="flowiq-col">FlowIQ ✓</th>  
+          <th>Nansen / Glassnode</th>  
+          <th>CoinMarketCap</th>  
+        </tr>  
+      </thead>  
+      <tbody>  
+        <tr><td>Beginner-friendly</td><td class="flowiq-col good">✓ Yes</td><td class="bad">✗ Advanced</td><td class="bad">✗ Overwhelming</td></tr>  
+        <tr><td>Plain English explanations</td><td class="flowiq-col good">✓ Always</td><td class="bad">✗ Raw data only</td><td class="bad">✗ No context</td></tr>  
+        <tr><td>Whale tracking</td><td class="flowiq-col good">✓ Simplified</td><td style="color:var(--muted)">~ Technical</td><td class="bad">✗ None</td></tr>  
+        <tr><td>Narrative intelligence</td><td class="flowiq-col good">✓ Built-in</td><td class="bad">✗ None</td><td class="bad">✗ None</td></tr>  
+        <tr><td>Telegram alerts</td><td class="flowiq-col good">✓ Real-time</td><td style="color:var(--muted)">~ Email only</td><td class="bad">✗ None</td></tr>  
+        <tr><td>Price</td><td class="flowiq-col good">Free — $24.99/mo</td><td class="bad">$150–$1,000+/mo</td><td style="color:var(--muted)">Free (limited)</td></tr>  
+      </tbody>  
+    </table>  
+  </div>  
+</section>  
+<section id="pricing">  
+  <div class="container reveal">  
+    <div class="section-label">Pricing</div>  
+    <h2 class="section-title">Start free.<br/>Upgrade when ready.</h2>  
+    <p class="section-sub">No credit card required to get started.</p>  
+    <div class="pricing-grid">  
+      <div class="pricing-card">  
+        <div class="tier-name">Signal</div>  
+        <div class="tier-desc">Less than $1 a day</div>  
+        <div class="tier-price">$3.33<span>/mo</span></div>  
+        <div class="tier-annual">or $29.99/year — save 25%</div>  
+        <div class="tier-divider"></div>  
+        <ul class="tier-features">  
+          <li><span class="check">✓</span> Everything in Free</li>  
+          <li><span class="check">✓</span> Unlimited Telegram alerts</li>  
+          <li><span class="check">✓</span> 3 whale wallet addresses</li>  
+          <li><span class="check">✓</span> Basic heat scores</li>  
+          <li><span class="check">✓</span> 10 coins on watchlist</li>  
+          <li><span class="lock">○</span> <span style="opacity:.4">Full whale intelligence</span></li>  
+          <li><span class="lock">○</span> <span style="opacity:.4">Advanced market signals</span></li>  
+        </ul>  
+        <a href="#waitlist" class="tier-btn ghost-btn">Join Waitlist</a>  
+      </div>  
+      <div class="pricing-card popular">  
+        <div class="popular-badge">⚡ MOST POPULAR</div>  
+        <div class="tier-name">Alpha</div>  
+        <div class="tier-desc">Trade smarter than 99% of retail</div>  
+        <div class="tier-price">$9.99<span>/mo</span></div>  
+        <div class="tier-annual">or $79.99/year — save 33%</div>  
+        <div class="tier-divider"></div>  
+        <ul class="tier-features">  
+          <li><span class="check">✓</span> Everything in Signal</li>  
+          <li><span class="check">✓</span> Full whale wallet addresses</li>  
+          <li><span class="check">✓</span> Track 20+ specific whales</li>  
+          <li><span class="check">✓</span> Advanced heat scores</li>  
+          <li><span class="check">✓</span> VIP market signals</li>  
+          <li><span class="check">✓</span> 20 coins on watchlist</li>  
+          <li><span class="check">✓</span> Priority support</li>  
+        </ul>  
+        <a href="#waitlist" class="tier-btn primary-btn">Join Waitlist →</a>  
+      </div>  
+      <div class="pricing-card">  
+        <div class="tier-name">Whale</div>  
+        <div class="tier-desc">Institutional edge, retail price</div>  
+        <div class="tier-price">$24.99<span>/mo</span></div>  
+        <div class="tier-annual">or $199.99/year — save 33%</div>  
+        <div class="tier-divider"></div>  
+        <ul class="tier-features">  
+          <li><span class="check">✓</span> Everything in Alpha</li>  
+          <li><span class="check">✓</span> Whale personality AI labels</li>  
+          <li><span class="check">✓</span> Unlimited whale tracking</li>  
+          <li><span class="check">✓</span> Custom alert conditions</li>  
+          <li><span class="check">✓</span> Portfolio integration</li>  
+          <li><span class="check">✓</span> Direct alpha via Telegram</li>  
+          <li><span class="check">✓</span> Early feature access</li>  
+        </ul>  
+        <a href="#waitlist" class="tier-btn ghost-btn">Join Waitlist</a>  
+      </div>  
+    </div>  
+  </div>  
+</section>  
+<section class="waitlist-section" id="waitlist">  
+  <div class="container">  
+    <div class="waitlist-inner reveal">  
+      <div class="section-label">Early Access</div>  
+      <h2 class="section-title">Be first in line.</h2>  
+      <p style="color:var(--muted);margin-top:.5rem;">Join the waitlist and get free Alpha access for the first month when we launch.</p>  
+      <div style="margin-top:2rem;">  
+        <script async src="https://tally.so/widgets/embed.js"></script>  
+        <iframe data-tally-src="https://tally.so/embed/44zbpo?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="420" frameborder="0" marginheight="0" marginwidth="0" title="FlowIQ Early Access Waitlist" style="border-radius:12px;"></iframe>  
+      </div>  
+      <p class="waitlist-note">🔒 No spam. No credit card. Just early access.</p>  
+    </div>  
+  </div>  
+</section>  
+<footer>  
+  <div class="logo">FlowIQ</div>  
+  <p>© 2025 FlowIQ. All rights reserved.</p>  
+  <p style="color:var(--muted);font-size:.75rem;">Not financial advice. DYOR.</p>  
+</footer>  
+<script>  
+  const reveals = document.querySelectorAll('.reveal');  
+  const observer = new IntersectionObserver((entries) => {  
+    entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');} });  
+  },{threshold:0.1});  
+  reveals.forEach(r => observer.observe(r));  
+</script>  
+</body>  
+                                                       </html>
